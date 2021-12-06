@@ -7,5 +7,5 @@ version = "1.0.0"
 PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
 
 [compat]
-Julia = "1.6.0"
-PyCall = "1.92.5"
+Julia = "1"
+PyCall = "1.92"
