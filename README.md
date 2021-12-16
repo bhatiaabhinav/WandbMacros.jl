@@ -9,9 +9,8 @@ The macros provide a Julian way of interfacing with Wandb's Python API via [PyCa
 
 ```julia
 using Pkg
-Pkg.add("https://github.com/bhatiaabhinav/WandbMacros.jl")
+Pkg.add("WandbMacros")
 ```
-This package will be registered to JuliaRegistry soon, so that you can install it using `Pkg.add("WandbMacros")`
 
 ## Quick Start
 
