@@ -1,7 +1,7 @@
 name = "WandbMacros"
 uuid = "e69cbec5-4d86-4e4e-9018-58a9d8b3f761"
 authors = ["abhinav.bhatia.me@gmail.com"]
-version = "1.0.0"
+version = "1.0.1"
 
 [deps]
 PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"

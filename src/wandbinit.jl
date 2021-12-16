@@ -20,12 +20,19 @@ macro wandbinit(exs...)
     return quote
         if !("JULIA_NO_WANDB" in keys(ENV)) || ENV["JULIA_NO_WANDB"] == "" || ENV["JULIA_NO_WANDB"] == "false" || ENV["JULIA_NO_WANDB"] == false
             kw = pairs((;$(kwargs...)))
-            if "settings" in keys(kw)
-                run = wandb.init(; kw...)
-            else
-                run = wandb.init(; settings=wandb.Settings(start_method="thread"), kw...)
+            if Sys.iswindows()
+                if :settings in keys(kw) && !isnothing(kw[:settings].start_method) && kw[:settings].start_method != "thread"
+                    @warn "wandb initialization is known to crash on Windows OS if the setting `start_method` is not \"thread\". You have specified start_method=\"$(kw[:settings].start_method)\". But don't worry! This @wandbinit macro is going to override that setting and set it to \"thread\" for you. But next time, either specify settings=wandb.Settings(start_method=\"thread\") or don't set the start_method. In the latter case, this macro will set it to \"thread\" automatically for you and inform you gently."
+                    kw[:settings].start_method = "thread"
+                elseif :settings in keys(kw) && isnothing(kw[:settings].start_method)
+                    @info "Adding kwarg start_method=\"thread\" to wandb.Settings to avoid a crash on Windows OS (a known issue)."
+                    kw[:settings].start_method = "thread"
+                elseif !(:settings in keys(kw))
+                    @info "Adding kwarg settings=wandb.Settings(start_method=\"thread\") to avoid a crash on Windows OS (a known issue)."
+                    kw = (kw..., settings=wandb.Settings(; start_method="thread"))
+                end
             end
-            run
+            wandb.init(; kw...)
         end
     end
 end

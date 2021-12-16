@@ -44,3 +44,10 @@ using WandbMacros  # Automatically installs wandb (if not already installed) if 
 3. To run [multiple instances of wandb](https://docs.wandb.ai/guides/track/launch) in a process, do `run1 = @wandbinit project="project1" name="run1" reinit=true` and close the instance by calling `@wandfinish run1`.
 
 4. Wandb logging can be disabled entirely (without commenting out the code) by setting environment variable `JULIA_NO_WANDB=true`, and enabled again by either unsetting the environment variable or setting it to `JULIA_NO_WANDB=false`. The environment variable can be set within the code using `ENV["JULIA_NO_WANDB"]=true`.
+
+
+## Known Issues
+
+### On Windows
+
+`wandb.init()` with PyCall is known to crash on Windows, unless you specify a keyword argument `settings=wandb.Settings(start_method="thread")`. But no worries! `@wandbinit` macro handles it automatically for you.
